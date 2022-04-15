@@ -1,0 +1,50 @@
+mlflow:
+  experiment_name: alpaca
+  run_name: baseline
+common:
+  seed: 57
+dataset:
+  data_dir: ./data/
+  resize_size: [64, 64]
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+  train_size: 0.8
+  batch_size: 4
+  shuffle: True
+model:
+  model_name: NaiveCNN
+  num_classes: 2
+  structure: 
+    - conv: {
+      in_channels: 3,
+      out_channels: 6,
+      kernel_size_conv: 5,
+      stride_conv: 1,
+      padding: 0,
+      kernel_size_pool: 2,
+      stride_pool: 2
+      }
+    - conv: {
+      in_channels: 6,
+      out_channels: 16,
+      kernel_size_conv: 5,
+      stride_conv: 1,
+      padding: 0,
+      kernel_size_pool: 2,
+      stride_pool: 2,
+      }
+    - dense: {
+      in_features: 2704,
+      out_features: 120
+      }
+    - dense: {
+      in_features: 120,
+      out_features: 84
+      }
+    - out: {
+      in_features: 84
+      }
+train:
+  num_epochs: 30
+  output_dir: ./model/test
+  should_save_best: True
